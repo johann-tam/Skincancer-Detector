@@ -1,13 +1,13 @@
-[![pipeline status](https://git.chalmers.se/courses/dit825/2021/group04/skin-cancer-detector/badges/main/pipeline.svg)](https://git.chalmers.se/courses/dit825/2021/group04/skin-cancer-detector/-/commits/main)
-
 # Skin Cancer Detector
+
+This project was developed during the last year of my Software Engineering and Management program. 
 
 # Table of contents
 1. [Purpose](#purpose)
     1. [What](#what)
     2. [Why](#why)
     3. [How](#how)
-    4. [Team Resources](#team resources)
+    4. Team Resources
 2. [Instructions on how to run the application](#instructions)
 3. [System Diagrams](#diagrams)
 4. [Developers](#developers)
@@ -83,6 +83,4 @@ users - end-users (potential patients) and admin-users.
 - [Sandra Smoler Eisenberg](https://git.chalmers.se/smolers)
 - [Linus Ivarsson](https://git.chalmers.se/ilinus)
 - [Linus Åberg](https://git.chalmers.se/linusab)
-
-
 
