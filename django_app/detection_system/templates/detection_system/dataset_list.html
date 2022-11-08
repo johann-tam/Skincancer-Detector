@@ -1,0 +1,40 @@
+<!--
+Original author(s):
+Modified by: Linus Ivarsson
+
+File purpose: High level description
+-->
+{% extends 'dataset_base.html' %}
+
+{% block list %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Filename</th>
+                <th scope="col">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dataset in datasets %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ dataset }}</td>
+                    <td style="word-wrap: break-word;min-width: 200px;max-width: 200px;">
+                        {% if dataset.description %}
+                            {{ dataset.description }}
+                        {% else %}
+                            <p>- - -</p>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- If metrics are included -->
+    {% if precision %}
+        <b>The active model performance on newly uploaded dataset:</b><br>
+        <b>Precision: {{ precision|floatformat:3 }} Recall: {{ recall|floatformat:3 }} F1-score: {{ f1|floatformat:3 }}</b>
+    {% endif %}
+
+{% endblock %}

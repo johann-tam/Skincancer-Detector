@@ -1,0 +1,15 @@
+"""
+Original author(s):
+Modified by:
+
+File purpose: High level description
+"""
+
+""" 
+Method description: What it does and what it returns, not how it does it. 
+Parameter description: Describe input parameter
+"""
+
+"""
+Loop description: What the loop does and why, not how it does it.
+"""

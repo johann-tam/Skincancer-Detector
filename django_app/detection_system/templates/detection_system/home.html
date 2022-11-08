@@ -1,0 +1,118 @@
+<!-- Original author(s): Sandra Smoler Eisenberg
+Modified by: Linus Ivarsson, Linus Åberg
+
+File purpose: The homepage of the web application. Displays form to upload image and displays results -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Skin Cancer Detector</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="../../static/vendor/startbootstrap-bare-gh-pages/assets/cancer.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="../../static/vendor/startbootstrap-bare-gh-pages/css/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href='' >Skin Cancer Detector</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation"><span
+                        class="navbar-toggler-icon"></span></button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <!-- Navbar items if user is logged in -->
+                        {% if request.user.is_staff %}
+                            <li class="nav-item"><a class="nav-link active" aria-current="page" href=''>Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href={% url 'history' %}>History</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'models' %}">Admin</a></li>
+                            <li class="nav-item"><a class="nav-link" href={% url 'logout_user' %}>Logout</a></li>
+                        {% elif authenticated == True %}
+                            <li class="nav-item"><a class="nav-link active" aria-current="page" href=''>Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href={% url 'history' %}>History</a></li>
+                            <li class="nav-item"><a class="nav-link" href={% url 'logout_user' %}>Logout</a></li>
+                        {% else %}
+                        <!-- Navbar items if user is not logged in -->
+                            <li class="nav-item"><a class="nav-link active" aria-current="page" href=''>Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'models' %}">Admin</a></li>\\\
+                            <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'login_user' %}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Display welcome message if user is logged in -->
+        {% if authenticated == True and  img_obj == null%}
+        <div class="alert alert-secondary text-center" role="alert">
+            Welcome {{ user.username }}!
+        </div>
+        {% endif %}
+        <!-- Page content-->
+            <!-- Display if an image has not been uploaded -->
+            {% if img_obj == null %}
+            <div class="text-center mt-4">
+                <!-- Web app icon image -->
+                <img src="../../static/vendor/startbootstrap-bare-gh-pages/assets/cancer.ico" style="max-height:80px" />
+                <h1>Skin Cancer Detector</h1>
+                <p class="lead">Predict the probability of skin cancer types</p>
+            </div>
+            <div class="text-center mt-3">
+                <form type="file" method="post" enctype="multipart/form-data" onchange="loadFile(event)">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <img id="image" style="max-height:300px"/><br><br>
+                    <!-- Button to upload the selected image -->
+                    <button type="submit" class="btn btn-dark mb-5" onclick=displayProcessing()>Make Prediction</button>
+                    <div class="alert alert-warning" role="alert">
+                        By using this site you agree to us storing your information
+                    </div>
+                </form>
+            <p id="imageprocessing"></p>
+            </div>
+            {% endif %}
+
+            <!-- Display if an image has been uploaded -->
+            {% if img_obj %}
+                {% block results_page %}
+                {% endblock %}
+            {% endif %}
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="../../static/vendor/startbootstrap-bare-gh-pages/js/scripts.js"></script>
+    </body>
+
+    <script>
+        // Hide showing of processing <p> tag when page is loaded
+        document.getElementById("imageprocessing").style.display = "none";
+
+        /* Function that lets us preview the chosen image without uploading it first */
+        let loadFile = function(event) {
+            // Reset value of processing <p> tag to empty if button was pressed before uploading image
+            document.getElementById("imageprocessing").innerHTML = "";
+            let image = document.getElementById('image');
+            image.src = URL.createObjectURL(event.target.files[0]);
+            image.onload = function() {
+              URL.revokeObjectURL(image.src) // free memory
+            }
+            // Show processing <p> tag when an image is loaded
+            document.getElementById("imageprocessing").style.display = 'block';
+        };
+        // Function to display to the user if the image is being processed
+        function displayProcessing() {
+            // Sets text to imageprocessing tag, is reset to empty in loadFile() if submit button is clicked without
+            // an uploaded image
+            document.getElementById("imageprocessing").innerHTML = "Processing image...";
+      }
+    </script>
+</html>

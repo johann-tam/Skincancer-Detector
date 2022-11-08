@@ -1,0 +1,80 @@
+<!-- Original author(s): Sandra Smoler Eisenberg
+File purpose: A page that displays the history of a users uploaded images and their respective top prediction -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Skin Cancer Detector</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="../../static/vendor/startbootstrap-bare-gh-pages/assets/cancer.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="../../static/vendor/startbootstrap-bare-gh-pages/css/styles.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Responsive navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href={% url 'home' %} >Skin Cancer Detector</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"></span></button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href={% url 'home' %}>Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href={% url 'history' %}>History</a></li>
+                    {% if request.user.is_staff %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'models' %}">Admin</a></li>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link" href={% url 'logout_user' %}>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Page content-->
+    <div class="text-center mt-4">
+        <img src="../../static/vendor/startbootstrap-bare-gh-pages/assets/cancer.ico" style="max-height:80px"/><br>
+        <h2>History</h2>
+    </div>
+    <!-- History table -->
+    <div class="container text-center mt-4" style="max-width: 60em">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Date uploaded</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Prediction</th>
+                    <th scope="col">Information</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for date, image, prediction, link, id in user_history %}
+                    <tr>
+                        <td>{{ date }}</td>
+                        <td><img src="../../../media/{{ image }}" style="max-height:100px"></td>
+                        <td>{{ prediction }}</td>
+                        <td><a class="text-black" href={{ link }} target="_blank">Read More</a></td>
+                        <td>
+                            <!-- Delete button -->
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="delete_image" value="{{ id }}" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="../../static/vendor/startbootstrap-bare-gh-pages/js/scripts.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!-- Original author(s): Sandra Smoler Eisenberg
+Modified by: Linus Åberg
+File purpose: A component that displays the results after an image has been uploaded -->
+
+{% extends 'home.html' %}
+
+<!-- Display the results for the prediction request -->
+{% block results_page %}
+
+    <div class="alert alert-success text-center" role="alert">
+        {{ success }}
+    </div>
+    <div class="container text-center mt-3">
+        <img src="../../static/vendor/startbootstrap-bare-gh-pages/assets/cancer.ico" style="max-height:80px" class="mb-2"/>
+        <h5>Predictions made by the system</h5>
+        <p> This is the top three predictions with the highest probability as judged by the system</p>
+            <!-- List the predictions/bars -->
+            <div id="list" class="mb-4">
+                {% block list %}
+                    <p>Predictions can't be displayed.</p>
+                {% endblock list %}
+            <p>Uploaded image:</p>
+            <img src="{{ img_obj.image.url}}" style="max-height:300px"><br>
+            </div>
+            <form method="get">
+                <!-- Button to go back to homepage to upload another image -->
+                <button type="submit" class="btn btn-dark mb-5">Upload new image</button>
+            </form>
+    </div>
+
+{% endblock %}

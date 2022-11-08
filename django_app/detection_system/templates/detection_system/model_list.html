@@ -1,0 +1,28 @@
+<!--
+Original author(s):
+Modified by: Linus Ivarsson
+
+File purpose: High level description
+-->
+
+{% extends 'model_base.html' %}
+
+{% block list %}
+    <ul class="list-group">
+        {% for metric in model_metrics %}
+            <li class="list-group-item" >
+            {% if metric.dl_model == active_model %}
+                <b>
+                {% endif %}
+                Model {{ metric.dl_model }}, Precision: {{ metric.precision|floatformat:3 }},
+                Recall: {{ metric.recall|floatformat:3 }}, F1-score: {{ metric.f1|floatformat:3 }}
+                {% if metric.dl_model == active_model %}
+                - Active
+                    </b>
+                {% endif %}
+            </li>
+
+        {% endfor %}
+    </ul>
+
+{% endblock %}

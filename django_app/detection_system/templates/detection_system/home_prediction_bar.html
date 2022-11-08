@@ -1,0 +1,20 @@
+<!-- Original author(s): Sandra Smoler Eisenberg
+Modified by: Linus Ivarsson, Linus Åberg
+File purpose: A component that displays a progress bar for each prediction class -->
+
+{% extends 'home_results_page.html' %}
+
+<!-- Display the label and prediction for each class sent from the "back-end" -->
+{% block list %}
+
+    {% for label, prediction, info in predictions %}
+    <u>{{ label}}: {{ prediction }}%</u>
+    <p>For more information about this abnormality click <a href={{ info }} target="_blank">here</a> </p>
+    <!-- Display a progress bar for each label/prediction that corresponds to the prediction -->
+    <div class="progress">
+      <div class="progress-bar bg-danger" role="progressbar" style="width: {{ prediction }}%" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <br>
+    {% endfor %}
+
+{% endblock %}

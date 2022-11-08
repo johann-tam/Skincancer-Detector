@@ -1,0 +1,66 @@
+<!-- Original author(s): Sandra Smoler Eisenberg
+File purpose: A page that displays a login form so that users can login to their account -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Skin Cancer Detector</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="../../static/vendor/startbootstrap-bare-gh-pages/assets/cancer.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="../../static/vendor/startbootstrap-bare-gh-pages/css/styles.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Responsive navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href={% url 'home' %} >Skin Cancer Detector</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"></span></button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href={% url 'home' %}>Go back</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Display error message if invalid login -->
+    {% if error %}
+    <div class="alert alert-danger text-center" role="alert">
+        {{ error }}
+    </div>
+    {% endif %}
+    <!-- Page content-->
+    <div class="text-center mt-4">
+        <img src="../../static/vendor/startbootstrap-bare-gh-pages/assets/cancer.ico" style="max-height:80px"/><br>
+        <h2>Login</h2>
+    </div>
+    <div class="container text-center mt-3">
+        <!--Login Form-->
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group mt-2">
+                <label>{{ login_form.username.label }}:</label>
+                {{ login_form.username }}
+            </div>
+            <div class="form-group mt-2">
+                <label style="margin-right: 5px">{{ login_form.password.label }}:</label>
+                {{ login_form.password }}
+            </div>
+            <button class="btn btn-dark mt-3" type="submit">Login</button>
+        </form>
+        <p class="text-center mt-3">Don't have an account? <a href="{% url 'register' %}">Register an account</a></p>
+    </div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="../../static/vendor/startbootstrap-bare-gh-pages/js/scripts.js"></script>
+</body>
+</html>

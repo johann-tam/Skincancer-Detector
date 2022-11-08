@@ -1,0 +1,17 @@
+version: '3'
+services:
+   web:
+       build: .
+       image: cancer:latest
+       labels:
+         kompose.image-pull-policy: Never
+         kompose.service.type: LoadBalancer
+       command: bash -c "python manage.py makemigrations
+                && python manage.py migrate
+                && python manage.py migrate --run-syncdb
+                && python manage.py runserver"
+       container_name: app
+       volumes:
+         - .:/app
+       ports:
+         - "8000:8000"

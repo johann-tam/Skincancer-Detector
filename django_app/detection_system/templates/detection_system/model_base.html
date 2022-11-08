@@ -1,0 +1,112 @@
+<!--
+Original author(s): Sandra Smoler Eisenberg
+Modified by: Linus Ivarsson
+
+File purpose: The Models page of the Admin-user. Displays models in the system and allows the
+                Admin-user to Re-train the model and Rollback to the previous model
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Skin Cancer Detector - Data Management</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="../../static/vendor/startbootstrap-bare-gh-pages/assets/cancer.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="../../static/vendor/startbootstrap-bare-gh-pages/css/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'home' %}" >Skin Cancer Detector</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation"><span
+                        class="navbar-toggler-icon"></span></button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'models' %}">Admin</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}?next=/">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Sidebar -->
+        <div class="container-fluid">
+            <div class="row flex-nowrap">
+                <div class="col-auto col-md-3 col-xl-1 px-sm-2 px-0 bg-dark">
+                    <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                        <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"></a>
+                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                            <li class="nav-item">
+                                <a href="{% url 'models' %}" class="nav-link align-middle px-0 text-white">
+                                    <span class="ms-1 d-none d-sm-inline">Models</span>
+                                </a>
+                            </li>
+                            <br>
+                            <li class="nav-item">
+                                <a href="{% url 'datasets' %}" class="nav-link align-middle px-0 text-secondary">
+                                    <span class="ms-1 d-none d-sm-inline">Datasets</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Page content -->
+                <div class="col py-3">
+                    <div class="text-center mt-3">
+                        <!-- Web app icon image -->
+                        <img src="../../static/vendor/startbootstrap-bare-gh-pages/assets/cancer.ico" style="max-height:80px"/><br>
+                        <h3>AI-models in the system:</h3>
+                        <!-- Display the models in the system -->
+                        <div id="list">
+                            {% block list %}
+                                <p>List can't be displayed.</p>
+                            {% endblock list %}
+                        </div>
+                        <div class="text-center mt-4">
+                            <form method="post">
+                                {% csrf_token %}
+                                <!-- Re-train button -->
+                                <button type="submit" name="action" value="retrain" class="btn btn-dark"
+                                        onclick=displayProcessing()>
+                                    Re-train Model</button>
+                                <!-- Rollback button -->
+                                <button type="submit" name="action" value="rollback" class="btn btn-dark" style="margin-left: 5em">
+                                    Rollback</button>
+                                <!-- Delete button -->
+                                <button type="submit" name="action" value="delete" class="btn btn-danger"
+                                        style="margin-left: 5em" onclick=displayProcessing()>
+                                    Delete All Models</button>
+                                <!-- Display error message -->
+                                {% if error_message %}
+                                    <b>
+                                <p style="color:red;">{{ error_message }}</p>
+                                    </b>
+                                {% endif %}
+                            </form>
+                        <p id="modelprocessing"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="../../static/vendor/startbootstrap-bare-gh-pages/js/scripts.js"></script>
+    </body>
+    <script>
+        function displayProcessing() {
+        // Display that the image is being processed
+        document.getElementById("modelprocessing").innerHTML = "Processing request...";
+    }
+    </script>
+</html>

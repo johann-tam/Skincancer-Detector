@@ -1,0 +1,8 @@
+keras
+Django
+Pillow
+numpy
+tensorflow
+pandas
+sklearn
+matplotlib
